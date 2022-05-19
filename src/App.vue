@@ -2,6 +2,15 @@
   <div id="app" class="container">
     <h1>Cadastro de Usuários</h1>
 
+    <b-alert
+      show
+      dismissible
+      v-for="message in messages"
+      :key="message.text"
+      :variant="message.type"
+    >
+      {{ message.text }}
+    </b-alert>
     <b-card class="container__card-body">
       <b-form-group label="Nome: ">
         <b-form-input
@@ -73,6 +82,10 @@ export default {
       const finishUrl = this.key ? `/${this.key}.json` : ".json";
       this.$http[method](`/users${finishUrl}`, this.user).then(() => {
         this.clear();
+        this.messages.push({
+          text: "Usuário salvo com sucesso!",
+          type: "success",
+        });
       });
     },
 
@@ -89,14 +102,22 @@ export default {
     },
 
     handleDelete(key) {
-      this.$http.delete(`/users/${key}.json`);
+      this.$http
+        .delete(`/users/${key}.json`)
+        .then(() => this.clear)
+        .catch(() => {
+          this.messages.push({
+            text: "Erro ao excluir usuário",
+            type: "danger",
+          });
+        });
     },
 
     clear() {
       this.user.name = "";
       this.user.email = "";
       this.user.id = null;
-	  this.messages = []
+      this.messages = [];
     },
   },
 };
