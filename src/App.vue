@@ -1,12 +1,10 @@
 <template>
 	<div id="app" class="container">
-		<h1>HTTP com Axios</h1>
 	</div>
 </template>
 
 <script>
 export default {
-
 }
 </script>
 
