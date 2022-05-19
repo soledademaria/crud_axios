@@ -38,7 +38,10 @@ export default {
 
 	methods: {
 		handleClick(){
-			console.log(this.user);
+			this.$http.post('users.json', this.user)
+			.then(() => {
+				this.user = {}
+			})
 		}
 	}
 }
